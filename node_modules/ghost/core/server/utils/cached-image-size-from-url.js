@@ -1,8 +1,8 @@
-var imageSizeCache          = {},
-    size                    = require('./image-size-from-url'),
-    Promise                 = require('bluebird'),
-    errors                  = require('../errors'),
-    getImageSizeFromUrl     = size.getImageSizeFromUrl;
+var Promise = require('bluebird'),
+    size = require('./image-size-from-url'),
+    logging = require('../logging'),
+    getImageSizeFromUrl = size.getImageSizeFromUrl,
+    imageSizeCache = {};
 
 /**
  * Get cached image size from URL
@@ -24,7 +24,7 @@ function getCachedImageSizeFromUrl(url) {
 
             return Promise.resolve(imageSizeCache[url]);
         }).catch(function (err) {
-            errors.logError(err, err.context);
+            logging.error(err);
 
             // in case of error we just attach the url
             return Promise.resolve(imageSizeCache[url] = url);
